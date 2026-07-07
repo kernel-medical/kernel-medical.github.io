@@ -1,1037 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Embedded Linux Medical Device Software | IEC 62304 | Kernel IIO | Zephyr RTOS | ROS 2</title>
-  <meta name="description" content="Open-source embedded software for regulated medical devices. Linux kernel IIO biosensor drivers, Zephyr RTOS, IEC 62304 Class B lifecycle documentation, and ROS 2 integration — the complete stack for surgical robots and medical instruments." />
-  <meta name="keywords" content="IEC 62304 Linux kernel driver, embedded Linux medical device, ROS 2 biosensor, IIO driver ECG EEG SpO2, Zephyr RTOS medical, ADS1299 Linux driver, MAX86150 kernel driver, surgical robot embedded software, medical device software engineer, STM32MP157 medical, IEC 62304 SOUP, kernel IIO medical" />
-  <meta name="author" content="Md Shofiqul Islam" />
-  <link rel="canonical" href="https://kernel-medical.github.io/" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://kernel-medical.github.io/" />
-  <meta property="og:title" content="Embedded Linux Medical Device Software — Kernel IIO · Zephyr RTOS · IEC 62304 · ROS 2" />
-  <meta property="og:description" content="Open-source embedded software for regulated medical devices. Linux kernel IIO biosensor drivers, IEC 62304 lifecycle documentation, and ROS 2 integration for surgical robots." />
-  <meta property="og:image" content="https://raw.githubusercontent.com/kernel-medical/ros2_iio_medical/master/docs/architecture-stm32mp157.svg" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Embedded Linux Medical Device Software — IEC 62304 · ROS 2 · Kernel IIO" />
-  <meta name="twitter:description" content="Linux kernel IIO drivers, Zephyr RTOS, and ROS 2 for regulated medical devices. Full IEC 62304 Class B documentation. Open source." />
-
-  <!-- JSON-LD structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://kernel-medical.github.io/#author",
-        "name": "Md Shofiqul Islam",
-        "email": "shofiqtest@gmail.com",
-        "url": "https://kernel-medical.github.io/",
-        "sameAs": [
-          "https://github.com/shofiqtest",
-          "https://lore.kernel.org/all/?q=Md+Shofiqul+Islam",
-          "https://github.com/kernel-medical"
-        ],
-        "jobTitle": "Embedded Software Engineer",
-        "knowsAbout": [
-          "Linux kernel device drivers",
-          "IEC 62304 medical device software",
-          "Zephyr RTOS",
-          "ROS 2",
-          "IIO subsystem",
-          "Medical biosensors",
-          "STM32MP157",
-          "Yocto BSP"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://kernel-medical.github.io/#website",
-        "url": "https://kernel-medical.github.io/",
-        "name": "kernel-medical — Embedded Linux Medical Device Software",
-        "description": "Open-source embedded software for regulated medical devices: Linux kernel IIO drivers, Zephyr RTOS, IEC 62304 documentation, and ROS 2 integration.",
-        "author": { "@id": "https://kernel-medical.github.io/#author" }
-      },
-      {
-        "@type": "ItemList",
-        "name": "Open-source medical device software projects",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-              "@type": "SoftwareSourceCode",
-              "name": "ros2_iio_medical",
-              "description": "Production ROS 2 package bridging Linux IIO biosignal drivers to typed ROS 2 topics via kernel DMA ring buffers and epoll. IEC 62304 Class B documented.",
-              "url": "https://github.com/kernel-medical/ros2_iio_medical",
-              "programmingLanguage": ["C++", "Python"],
-              "license": "https://opensource.org/licenses/Apache-2.0"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-              "@type": "SoftwareSourceCode",
-              "name": "iec62304-embedded-drivers",
-              "description": "IEC 62304 SOUP records, FMEA, and traceability matrices for Linux kernel IIO biosensor drivers.",
-              "url": "https://github.com/kernel-medical/iec62304-embedded-drivers",
-              "license": "https://opensource.org/licenses/Apache-2.0"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@type": "SoftwareSourceCode",
-              "name": "kernel-soup-gen",
-              "description": "Automated IEC 62304 SOUP record generator from Linux kernel source tree — MODULE_AUTHOR, MODULE_DESCRIPTION, Kconfig symbols, git history.",
-              "url": "https://github.com/kernel-medical/kernel-soup-gen",
-              "programmingLanguage": "Python",
-              "license": "https://opensource.org/licenses/MIT"
-            }
-          }
-        ]
-      }
-    ]
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embedded Linux Medical Device Software | IEC 62304 | Kernel IIO | Zephyr RTOS | ROS 2</title>
+<meta name="description" content="Open-source embedded software for regulated medical devices. Linux kernel IIO biosensor drivers, Zephyr RTOS, IEC 62304 Class B lifecycle documentation, and ROS 2 integration.">
+<meta property="og:title" content="Embedded Linux & Medical Device Software Engineering">
+<meta property="og:description" content="Mainline Linux kernel patches, Zephyr RTOS drivers, and ROS 2 pipelines — with full IEC 62304 Class B lifecycle documentation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kernel-medical.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f14; --panel:#0d1319; --panel2:#0e161e; --border:#1a232c; --border2:#1e2a33;
+    --text:#e6edec; --bright:#f4f8f7; --muted:#8fa0ab; --dim:#5c6d78;
+    --green:#22c55e; --mint:#4ade80; --blue:#5ba8f5; --lightblue:#6ab7f5;
+    --orange:#f59e5b; --amber:#f5c05b; --purple:#b98cff; --red:#f0647a;
+    --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
   }
-  </script>
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
+  a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+  a:hover{color:#8cc4ff}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+  @keyframes wavescroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  <style>
-    :root {
-      --bg:        #080d18;
-      --surface:   #0f1624;
-      --surface2:  #162032;
-      --border:    #1e3050;
-      --primary:   #38bdf8;
-      --secondary: #34d399;
-      --warn:      #f59e0b;
-      --text:      #e2e8f0;
-      --muted:     #94a3b8;
-      --dim:       #475569;
-      --radius:    10px;
-      --max:       1100px;
-    }
+  /* nav */
+  nav{display:flex;align-items:center;gap:28px;padding:16px 48px;background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+  nav .brand{font-family:var(--mono);font-size:15px}
+  nav .brand b{color:var(--text);font-weight:600}
+  nav .brand span{color:var(--dim)}
+  nav .links{display:flex;gap:24px;margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--muted)}
+  nav .links a{color:var(--muted);text-decoration:none}
+  nav .links a:hover{color:var(--bright)}
+  .avail{display:flex;align-items:center;gap:8px;background:#0d2416;border:1px solid #1e5c34;padding:6px 14px;border-radius:999px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;color:var(--mint);white-space:nowrap}
+  .avail i{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint)}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* hero */
+  .hero{position:relative;background:radial-gradient(1200px 600px at 85% -10%,#14222e 0%,#0b1219 60%,var(--bg) 100%);border-bottom:1px solid var(--border);overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 75%);mask-image:linear-gradient(180deg,#000 0%,transparent 75%);pointer-events:none}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:center;padding:72px 0 64px}
+  h1{margin:0;color:var(--bright);font-weight:700;font-size:52px;line-height:1.1;letter-spacing:-.02em}
+  .hero-sub{color:#9fb0ad;font-size:19px;line-height:1.55;margin-top:20px;max-width:600px}
+  .cta-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  .btn{display:inline-block;font-weight:600;font-size:14px;font-family:var(--mono);letter-spacing:.06em;padding:13px 22px;border-radius:7px;text-decoration:none}
+  .btn.primary{background:var(--green);color:#04160b}
+  .btn.primary:hover{background:#3ddb72;color:#04160b}
+  .btn.ghost{background:#16202a;border:1px solid #2a3844;color:var(--text);font-weight:500}
+  .btn.ghost:hover{color:var(--bright);border-color:#3a4c5c}
+  .first-badge{display:inline-flex;align-items:center;gap:10px;margin-top:30px;font-family:var(--mono);font-size:13px;color:var(--amber);border-left:2px solid var(--amber);padding:4px 0 4px 14px}
+  .hero-img{position:relative;height:340px}
+  .hero-img .ph{position:absolute;inset:0;transform:rotate(2deg);border-radius:16px;overflow:hidden;border:1px solid #2a3844;background:repeating-linear-gradient(45deg,#101820,#101820 14px,#0d141b 14px,#0d141b 28px);display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mono);font-size:12.5px;text-align:center;padding:20px}
+  .hero-img .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-img .tag{position:absolute;right:14px;bottom:-12px;background:var(--panel);border:1px solid #2a3844;color:var(--muted);font-family:var(--mono);font-size:11.5px;padding:6px 12px;border-radius:6px}
 
-    html { scroll-behavior: smooth; }
+  section{border-bottom:1px solid var(--border)}
+  section .wrap{padding-top:56px;padding-bottom:56px}
+  h2{margin:0;color:var(--bright);font-size:26px;font-weight:700;letter-spacing:-.01em}
+  .sec-head{display:flex;align-items:center;gap:16px}
+  .sec-note{margin-left:auto;color:var(--dim);font-family:var(--mono);font-size:11.5px}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-    }
+  /* explorer */
+  .explorer{background:#0b1117}
+  select{background:#16202a;color:#c7d4d1;border:1px solid #2a3844;border-radius:6px;padding:7px 12px;font-family:var(--mono);font-size:12.5px}
+  .exp-grid{display:grid;grid-template-columns:280px 1fr;gap:28px;margin-top:24px;align-items:start}
+  .sig{cursor:pointer;padding:12px 16px;border-radius:7px;border:1px solid var(--border2);background:#10181f;color:var(--muted);font-family:var(--mono);font-size:13px;margin-bottom:8px}
+  .sig.active{background:#14261c;border-color:#2f7a4d;color:#7cebaa}
+  .sig-note{margin-top:8px;color:var(--dim);font-family:var(--mono);font-size:11.5px;line-height:1.5}
+  .scope{border:1px solid var(--border2);border-radius:10px;background:#0d141b;padding:18px 20px}
+  .ch-row{display:grid;grid-template-columns:90px 1fr;gap:14px;align-items:center;padding:6px 0;border-bottom:1px solid #141d25}
+  .ch-row .lbl{color:var(--muted);font-family:var(--mono);font-size:12px}
+  .ch-win{height:52px;overflow:hidden;position:relative}
+  .ch-scroll{width:200%;height:100%;animation:wavescroll 10s linear infinite}
+  .paused .ch-scroll{animation-play-state:paused}
+  .axis{display:flex;justify-content:space-between;color:#4a5a64;font-family:var(--mono);font-size:10.5px;padding:8px 0 0 104px}
+  .mini-pipe{display:flex;align-items:center;margin-top:28px}
+  .mini-node{flex:1;text-align:center;border-radius:8px;padding:13px 10px;font-family:var(--mono);font-size:14px;font-weight:600}
+  .mini-link{flex:0 0 60px;height:2px}
 
-    a { color: var(--primary); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+  /* metrics */
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:28px}
+  .metric{border-top:2px solid #2a3844;padding-top:16px}
+  .metric .n{color:var(--lightblue);font-family:var(--mono);font-weight:600;font-size:56px;line-height:1}
+  .metric .l{color:var(--muted);font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin-top:12px}
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8, 13, 24, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-    }
-    .nav-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-    .nav-brand {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--primary);
-      letter-spacing: 0.02em;
-    }
-    .nav-brand span { color: var(--muted); font-weight: 400; }
-    .nav-links { display: flex; gap: 1.6rem; list-style: none; }
-    .nav-links a { color: var(--muted); font-size: 0.88rem; }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
+  /* case study */
+  .case{background:#0b1117}
+  .case-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:36px;margin-top:28px;align-items:start}
+  .pipe-title{color:#c7d4d1;font-size:17px;font-weight:600;margin-bottom:16px}
+  .pnode{cursor:pointer;border:1.5px solid;border-radius:9px;padding:14px 18px;display:flex;align-items:center;gap:12px;background:#10181f}
+  .pnode .t{color:#eef4f2;font-weight:600;font-size:15px}
+  .pnode .s{color:#7d8f9a;font-family:var(--mono);font-size:11.5px;margin-top:3px}
+  .pnode .tag{margin-left:auto;font-family:var(--mono);font-size:12px}
+  .parrow{height:26px;display:flex;justify-content:center;align-items:center;color:#3a4a56;font-size:15px}
+  .panel{border:1px solid var(--border2);border-radius:12px;background:var(--panel2);overflow:hidden}
+  .panel-head{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);color:#eef4f2;font-family:var(--mono);font-weight:600;font-size:15px}
+  .panel-body{padding:20px}
+  .kicker{color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+  .arch{background:#f2f6f4;border-radius:10px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .arch .an{width:78%;text-align:center}
+  .arch .an div{border:1.5px solid;background:#fff;color:#22323c;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:11px;font-weight:600}
+  .arch .an span{color:#9ab0a9;font-size:11px;line-height:1.2}
+  .snip-head{display:flex;align-items:center;margin-top:22px;margin-bottom:10px}
+  .copy-btn{cursor:pointer;margin-left:auto;background:#16202a;border:1px solid #2a3844;color:#c7d4d1;border-radius:6px;padding:5px 14px;font-family:var(--mono);font-size:11.5px}
+  pre{margin:0;background:#080d12;border:1px solid var(--border);border-radius:8px;padding:16px;font-family:var(--mono);font-size:12px;line-height:1.6;color:#9fb8c7;overflow-x:auto}
+  pre .hl{color:var(--amber)} pre .add{color:var(--mint)}
+  .docs{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:13px}
 
-    /* ── SECTIONS ── */
-    section { padding: 5rem 2rem; }
-    .container { max-width: var(--max); margin: 0 auto; }
+  /* driver to doctor */
+  .doctor{position:relative;height:440px;border-bottom:none}
+  .doctor .ph{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#101820,#101820 18px,#0d141b 18px,#0d141b 36px);display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mono);font-size:13px}
+  .doctor .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .doctor .scrim{position:absolute;inset:0;background:linear-gradient(180deg,#0a0f14cc 0%,transparent 40%,#0a0f14dd 100%);pointer-events:none}
+  .doctor h2{position:absolute;top:44px;left:48px;font-size:36px;text-shadow:0 2px 16px rgba(0,0,0,.6)}
+  .doctor .chip{position:absolute;right:48px;bottom:40px;background:#0d1319ee;border:1px solid #2a3844;color:#c7d4d1;font-family:var(--mono);font-size:12.5px;padding:10px 16px;border-radius:8px}
+  .doctor .contact{position:absolute;left:48px;bottom:40px;display:flex;gap:22px;font-family:var(--mono);font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+  .doctor .contact a{color:var(--muted);text-decoration:none}
+  .doctor .contact a:hover{color:var(--bright)}
 
-    .section-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 0.6rem;
-    }
-    h2.section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-    }
-    .section-sub {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 680px;
-      margin-bottom: 3rem;
-    }
-
-    /* ── HERO ── */
-    #hero {
-      padding: 6rem 2rem 5rem;
-      background:
-        radial-gradient(ellipse 900px 500px at 50% -100px, rgba(56,189,248,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 600px 300px at 80% 60%, rgba(52,211,153,0.05) 0%, transparent 70%);
-    }
-    #hero .container { max-width: var(--max); margin: 0 auto; }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(56,189,248,0.1);
-      border: 1px solid rgba(56,189,248,0.25);
-      color: var(--primary);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      margin-bottom: 1.8rem;
-    }
-    .hero-badge::before { content: "●"; font-size: 0.55rem; color: var(--secondary); }
-
-    h1 {
-      font-size: clamp(2.1rem, 5vw, 3.4rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.4rem;
-    }
-    h1 .accent-blue { color: var(--primary); }
-    h1 .accent-green { color: var(--secondary); }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 700px;
-      margin-bottom: 2.2rem;
-      line-height: 1.75;
-    }
-
-    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.4rem;
-      border-radius: var(--radius);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.15s;
-    }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
-    .btn-primary { background: var(--primary); color: #000; }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-
-    /* ── PIPELINE DIAGRAM ── */
-    .pipeline {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      overflow-x: auto;
-    }
-    .pipeline-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 1.2rem;
-    }
-    .pipeline-row {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      min-width: 600px;
-    }
-    .pipe-node {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.9rem 0.75rem;
-      text-align: center;
-      position: relative;
-    }
-    .pipe-node .pn-chip {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 0.3rem;
-    }
-    .pipe-node .pn-name {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .pipe-node .pn-sub {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 0.15rem;
-    }
-    .pipe-node.blue { border-color: rgba(56,189,248,0.4); }
-    .pipe-node.blue .pn-name { color: var(--primary); }
-    .pipe-node.green { border-color: rgba(52,211,153,0.4); }
-    .pipe-node.green .pn-name { color: var(--secondary); }
-    .pipe-node.warn { border-color: rgba(245,158,11,0.4); }
-    .pipe-node.warn .pn-name { color: var(--warn); }
-
-    .pipe-arrow {
-      width: 32px;
-      flex-shrink: 0;
-      text-align: center;
-      color: var(--dim);
-      font-size: 1.1rem;
-    }
-
-    .pipeline-iec {
-      margin-top: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.6rem 1rem;
-      background: rgba(245,158,11,0.07);
-      border: 1px solid rgba(245,158,11,0.2);
-      border-radius: 6px;
-      font-size: 0.8rem;
-      color: var(--warn);
-      font-weight: 600;
-    }
-    .pipeline-iec span { color: var(--muted); font-weight: 400; }
-
-    /* ── STAT BAR ── */
-    .stat-bar {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-top: 2rem;
-    }
-    .stat-item {
-      background: var(--surface);
-      padding: 1.2rem 1.5rem;
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1;
-    }
-    .stat-desc {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-
-    /* ── PROJECTS ── */
-    #projects { background: var(--surface); }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .project-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.6rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .project-card:hover { border-color: var(--primary); transform: translateY(-3px); }
-
-    .pc-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-    .pc-icon { font-size: 1.5rem; }
-    .pc-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .badge-green { background: rgba(52,211,153,0.15); color: var(--secondary); border: 1px solid rgba(52,211,153,0.25); }
-    .badge-blue  { background: rgba(56,189,248,0.12); color: var(--primary);   border: 1px solid rgba(56,189,248,0.25); }
-    .badge-warn  { background: rgba(245,158,11,0.12); color: var(--warn);      border: 1px solid rgba(245,158,11,0.25); }
-    .badge-dim   { background: rgba(71,85,105,0.3);   color: var(--dim);       border: 1px solid rgba(71,85,105,0.4); }
-
-    .pc-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; font-family: "SF Mono", "Fira Code", monospace; }
-    .pc-desc  { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
-    .pc-features { list-style: none; margin-bottom: 1.2rem; }
-    .pc-features li {
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding: 0.18rem 0;
-    }
-    .pc-features li::before { content: "→ "; color: var(--secondary); }
-    .pc-link {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    /* ── SENSORS ── */
-    #sensors { background: var(--bg); }
-
-    .sensor-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-    .sensor-table th {
-      text-align: left;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .sensor-table td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-    .sensor-table tr:last-child td { border-bottom: none; }
-    .sensor-table tbody tr { transition: background 0.15s; }
-    .sensor-table tbody tr:hover { background: var(--surface2); }
-
-    .chip-name { font-family: "SF Mono", "Fira Code", monospace; font-weight: 700; color: var(--text); }
-    .chip-mfg  { font-size: 0.78rem; color: var(--dim); }
-
-    .status-merged   { color: var(--secondary); font-weight: 700; font-size: 0.82rem; }
-    .status-review   { color: var(--warn);      font-weight: 700; font-size: 0.82rem; }
-    .status-dev      { color: var(--primary);   font-weight: 700; font-size: 0.82rem; }
-
-    /* ── PATCHES ── */
-    #patches { background: var(--surface); }
-
-    .patch-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-    .patch-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      transition: border-color 0.15s;
-    }
-    .patch-item:hover { border-color: var(--primary); }
-    .patch-num {
-      flex-shrink: 0;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--dim);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.2rem 0.5rem;
-      font-family: monospace;
-    }
-    .patch-body { flex: 1; }
-    .patch-title { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; font-family: "SF Mono", "Fira Code", monospace; }
-    .patch-meta  { font-size: 0.78rem; color: var(--dim); }
-    .patch-meta a { color: var(--primary); }
-
-    /* ── IEC62304 ── */
-    #iec62304 { background: var(--bg); }
-
-    .doc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-    .doc-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.2rem;
-    }
-    .doc-card-title { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
-    .doc-card-abbr  { font-size: 0.72rem; color: var(--primary); font-family: monospace; font-weight: 700; margin-bottom: 0.5rem; }
-    .doc-card-desc  { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
-
-    .iec-highlight {
-      background: rgba(245,158,11,0.07);
-      border: 1px solid rgba(245,158,11,0.2);
-      border-radius: var(--radius);
-      padding: 1.5rem 2rem;
-    }
-    .iec-highlight p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; }
-    .iec-highlight strong { color: var(--warn); }
-
-    /* ── ABOUT ── */
-    #about { background: var(--surface); }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 3rem;
-      align-items: start;
-    }
-    @media (max-width: 768px) {
-      .about-grid { grid-template-columns: 1fr; }
-    }
-
-    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.8; }
-    .about-text p strong { color: var(--text); }
-
-    .contact-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.6rem;
-    }
-    .contact-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 1.2rem; }
-    .contact-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding: 0.6rem 0.8rem;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .contact-link:hover { border-color: var(--primary); color: var(--primary); text-decoration: none; }
-    .contact-icon { font-size: 1rem; }
-
-    .avail-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 1.2rem;
-      background: rgba(52,211,153,0.1);
-      border: 1px solid rgba(52,211,153,0.25);
-      color: var(--secondary);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-    }
-    .avail-tag::before { content: "●"; font-size: 0.55rem; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-    }
-    footer p { font-size: 0.82rem; color: var(--dim); }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--text); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      h2.section-title { font-size: 1.6rem; }
-      .nav-links { display: none; }
-      .about-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── UTILS ── */
-    .mono { font-family: "SF Mono", "Fira Code", "Fira Mono", monospace; }
-    .text-muted { color: var(--muted); }
-    .mb-4 { margin-bottom: 1rem; }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-  </style>
+  @media (max-width:900px){
+    .wrap{padding:0 20px}
+    nav{padding:12px 20px;gap:14px}
+    nav .links{display:none}
+    .hero-grid{grid-template-columns:1fr;padding:48px 0}
+    h1{font-size:36px}
+    .exp-grid,.case-grid{grid-template-columns:1fr}
+    .metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .mini-pipe{flex-direction:column;gap:10px}
+    .mini-link{display:none}
+    .mini-node{width:100%}
+    .doctor h2{left:20px}
+    .doctor .chip{right:20px}
+    .doctor .contact{left:20px;bottom:100px}
+  }
+</style>
 </head>
-
 <body>
 
-<!-- ── NAVIGATION ────────────────────────────────────────────── -->
-<nav aria-label="Main navigation">
-  <div class="nav-inner">
-    <div class="nav-brand">kernel-medical <span>/ github.io</span></div>
-    <ul class="nav-links">
-      <li><a href="#stack">Stack</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#sensors">Sensors</a></li>
-      <li><a href="#patches">Patches</a></li>
-      <li><a href="#iec62304">IEC 62304</a></li>
-      <li><a href="#about">About</a></li>
-    </ul>
+<nav>
+  <div class="brand"><b>kernel-medical</b><span>.github.io</span></div>
+  <div class="links">
+    <a href="#explorer">Stack</a><a href="#case">Projects</a><a href="#explorer">Sensors</a><a href="#metrics">Patches</a><a href="#case">IEC 62304</a><a href="#contact">About</a>
   </div>
+  <div class="avail"><i></i>OPEN TO OPPORTUNITIES</div>
 </nav>
 
-<!-- ── HERO ──────────────────────────────────────────────────── -->
-<section id="hero" aria-labelledby="hero-heading">
-  <div class="container">
-    <div class="hero-badge">Open source · Medical device software</div>
-
-    <h1 id="hero-heading">
-      Linux kernel to <span class="accent-blue">ROS 2 topic</span><br>
-      <span class="accent-green">IEC 62304</span> documented<br>
-      at every layer
-    </h1>
-
-    <p class="hero-sub">
-      Upstream Linux kernel IIO biosensor drivers, Zephyr RTOS on ARM Cortex-M,
-      and a production ROS 2 acquisition pipeline — built for regulated medical devices
-      from surgical robots to patient monitors. Full IEC 62304 Class B lifecycle
-      documentation. Everything is public and auditable.
-    </p>
-
-    <div class="cta-row">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="https://github.com/kernel-medical" class="btn btn-outline" target="_blank" rel="noopener">GitHub Org ↗</a>
-      <a href="#about" class="btn btn-outline">Contact</a>
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Embedded Linux &amp; Medical Device Software Engineering</h1>
+      <div class="hero-sub">Bridging the gap between open-source innovation and strict IEC 62304 compliance. I deliver auditable, mainline Linux kernel patches, Zephyr RTOS drivers, and ROS 2 acquisition pipelines for Class B medical devices.</div>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:shofiqtest@gmail.com">OPEN TO OPPORTUNITIES (EU)</a>
+        <a class="btn ghost" href="resume.pdf">VIEW RESUME (PDF)</a>
+      </div>
+      <div class="first-badge">⟳ ADS1299 EEG/EMG — first upstream Linux kernel driver, under review on linux-iio</div>
     </div>
-
-    <!-- pipeline diagram -->
-    <div class="pipeline" role="img" aria-label="STM32MP157 dual-core pipeline: sensor hardware to ROS 2 topic with IEC 62304 documentation">
-      <div class="pipeline-label">STM32MP157 production pipeline — hardware to ROS 2</div>
-      <div class="pipeline-row">
-        <div class="pipe-node">
-          <div class="pn-chip">Hardware</div>
-          <div class="pn-name">ADS1299 / MAX86150</div>
-          <div class="pn-sub">EEG · ECG · PPG · SpO₂</div>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node blue">
-          <div class="pn-chip">M4 Cortex</div>
-          <div class="pn-name">Zephyr RTOS</div>
-          <div class="pn-sub">SPI DMA · K_PRIO_COOP · OpenAMP</div>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node blue">
-          <div class="pn-chip">A7 Linux</div>
-          <div class="pn-name">IIO subsystem</div>
-          <div class="pn-sub">kernel DMA buffer · epoll</div>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node green">
-          <div class="pn-chip">User space</div>
-          <div class="pn-name">ROS 2 Humble</div>
-          <div class="pn-sub">typed biosignal topics</div>
-        </div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node warn">
-          <div class="pn-chip">Application</div>
-          <div class="pn-name">Medical Device</div>
-          <div class="pn-sub">Surgical robot · Monitor</div>
-        </div>
+    <div class="hero-img">
+      <div class="ph">
+        <img src="images/hero-pcb.jpg" alt="STM32MP157 development board with biosensor breakout" onerror="this.remove()">
+        <span>images/hero-pcb.jpg<br>— add a photo of your dev board / workbench —</span>
       </div>
-      <div class="pipeline-iec">
-        ⚕ IEC 62304 Class B <span>— SDP · SCMP · SPRP · FMEA · Traceability matrix — spans the entire stack</span>
-      </div>
-    </div>
-
-    <!-- stats -->
-    <div class="stat-bar" role="list" aria-label="Key statistics">
-      <div class="stat-item" role="listitem">
-        <div class="stat-num">11</div>
-        <div class="stat-desc">patches in Linux mainline</div>
-      </div>
-      <div class="stat-item" role="listitem">
-        <div class="stat-num">3</div>
-        <div class="stat-desc">medical biosensor drivers</div>
-      </div>
-      <div class="stat-item" role="listitem">
-        <div class="stat-num">IEC</div>
-        <div class="stat-desc">62304 Class B lifecycle docs</div>
-      </div>
-      <div class="stat-item" role="listitem">
-        <div class="stat-num">Zephyr</div>
-        <div class="stat-desc">Individual Contributor</div>
-      </div>
-      <div class="stat-item" role="listitem">
-        <div class="stat-num">ROS 2</div>
-        <div class="stat-desc">Humble · epoll · DMA buffer</div>
-      </div>
+      <div class="tag">STM32MP157 · ADS1299 · MAX86150</div>
     </div>
   </div>
-</section>
+</div>
 
-<hr class="divider" />
-
-<!-- ── PROJECTS ──────────────────────────────────────────────── -->
-<section id="projects" aria-labelledby="projects-heading">
-  <div class="container">
-    <div class="section-label">Open Source</div>
-    <h2 class="section-title" id="projects-heading">Projects</h2>
-    <p class="section-sub">Production-grade embedded software for regulated medical devices. Every project includes real documentation — not stubs.</p>
-
-    <div class="project-grid">
-
-      <!-- ros2_iio_medical -->
-      <article class="project-card">
-        <div class="pc-header">
-          <div class="pc-icon">🫀</div>
-          <div class="pc-badges">
-            <span class="badge badge-green">Production</span>
-            <span class="badge badge-blue">ROS 2</span>
-            <span class="badge badge-warn">IEC 62304</span>
-          </div>
-        </div>
-        <div class="pc-title">ros2_iio_medical</div>
-        <div class="pc-desc">
-          Production ROS 2 Humble package bridging Linux IIO biosignal sensor drivers to typed ROS 2 topics via kernel DMA ring buffers and epoll. Hardware-timed acquisition with zero missed samples.
-        </div>
-        <ul class="pc-features">
-          <li>epoll + kernel DMA ring buffer — hardware-timed, deterministic</li>
-          <li>Typed biosignal messages: SpO₂, ECG, EEG, PPG</li>
-          <li>STM32MP157 M4+A7 dual-core via OpenAMP RPMsg</li>
-          <li>Full IEC 62304 Class B docs: SDP, SCMP, SPRP, FMEA, traceability</li>
-          <li>GitHub Actions CI · GoogleTest unit tests</li>
-        </ul>
-        <a class="pc-link" href="https://github.com/kernel-medical/ros2_iio_medical" target="_blank" rel="noopener">github.com/kernel-medical/ros2_iio_medical ↗</a>
-      </article>
-
-      <!-- iec62304-embedded-drivers -->
-      <article class="project-card">
-        <div class="pc-header">
-          <div class="pc-icon">📋</div>
-          <div class="pc-badges">
-            <span class="badge badge-warn">IEC 62304</span>
-            <span class="badge badge-blue">SOUP</span>
-            <span class="badge badge-dim">ISO 14971</span>
-          </div>
-        </div>
-        <div class="pc-title">iec62304-embedded-drivers</div>
-        <div class="pc-desc">
-          IEC 62304 SOUP records, FMEA, and traceability matrices for Linux kernel IIO biosensor drivers. Shows exactly how upstream kernel driver metadata maps to regulatory documentation.
-        </div>
-        <ul class="pc-features">
-          <li>SOUP records: MODULE_AUTHOR → manufacturer, Kconfig → dependency</li>
-          <li>ISO 14971 FMEA for driver failure modes</li>
-          <li>Traceability matrix: SRS ↔ design ↔ test ↔ code</li>
-          <li>Covers MAX86150, ADS1299, MAX30102</li>
-          <li>Designed for regulatory submission review</li>
-        </ul>
-        <a class="pc-link" href="https://github.com/kernel-medical/iec62304-embedded-drivers" target="_blank" rel="noopener">github.com/kernel-medical/iec62304-embedded-drivers ↗</a>
-      </article>
-
-      <!-- kernel-soup-gen -->
-      <article class="project-card">
-        <div class="pc-header">
-          <div class="pc-icon">⚙️</div>
-          <div class="pc-badges">
-            <span class="badge badge-blue">Tooling</span>
-            <span class="badge badge-green">Python</span>
-            <span class="badge badge-warn">SOUP</span>
-          </div>
-        </div>
-        <div class="pc-title">kernel-soup-gen</div>
-        <div class="pc-desc">
-          Automated IEC 62304 SOUP record generator from Linux kernel source. Extracts MODULE_AUTHOR, MODULE_DESCRIPTION, MODULE_LICENSE, Kconfig symbols, git history, and maintainer contacts in seconds.
-        </div>
-        <ul class="pc-features">
-          <li>Extracts §8.1.2 a) and c) automatically from kernel source</li>
-          <li>Detects shallow clones — warns before incomplete records</li>
-          <li>Links to get_maintainer.pl for CVE contact chains</li>
-          <li>Outputs YAML/Markdown SOUP records ready for QMS</li>
-          <li>Reduces 300-driver SOUP documentation from weeks to minutes</li>
-        </ul>
-        <a class="pc-link" href="https://github.com/kernel-medical/kernel-soup-gen" target="_blank" rel="noopener">github.com/kernel-medical/kernel-soup-gen ↗</a>
-      </article>
-
+<section class="explorer" id="explorer">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Interactive Biosignal Explorer</h2>
+      <select id="animSel" style="margin-left:auto">
+        <option value="animated">Animated</option>
+        <option value="static">Static</option>
+      </select>
     </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── SENSORS ───────────────────────────────────────────────── -->
-<section id="sensors" aria-labelledby="sensors-heading">
-  <div class="container">
-    <div class="section-label">Medical Biosensors</div>
-    <h2 class="section-title" id="sensors-heading">Kernel drivers for medical-grade sensors</h2>
-    <p class="section-sub">Upstream Linux kernel IIO drivers and Zephyr RTOS sensor drivers for clinical biosignal acquisition. Each driver is written to upstream quality standards and reviewed by subsystem maintainers.</p>
-
-    <div style="overflow-x:auto; border: 1px solid var(--border); border-radius: var(--radius);">
-      <table class="sensor-table" aria-label="Medical biosensor driver status">
-        <thead>
-          <tr>
-            <th>Chip</th>
-            <th>Type</th>
-            <th>Signals</th>
-            <th>Subsystem</th>
-            <th>Status</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="chip-name">MAX30102</div>
-              <div class="chip-mfg">Maxim Integrated</div>
-            </td>
-            <td>SpO₂ / Heart Rate</td>
-            <td>PPG (2ch), IR + Red LED</td>
-            <td>Zephyr RTOS</td>
-            <td class="status-merged">✓ Merged — PR #108697</td>
-            <td><a href="https://github.com/zephyrproject-rtos/zephyr/pull/108697" target="_blank" rel="noopener">PR #108697 ↗</a></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="chip-name">MAX86150</div>
-              <div class="chip-mfg">Maxim Integrated</div>
-            </td>
-            <td>ECG + PPG</td>
-            <td>ECG, IR + Red PPG (3ch)</td>
-            <td>Linux kernel IIO</td>
-            <td class="status-review">⟳ Under review — lore.kernel.org</td>
-            <td><a href="https://lore.kernel.org/all/?q=MAX86150+Shofiqul" target="_blank" rel="noopener">lore.kernel.org ↗</a></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="chip-name">ADS1299</div>
-              <div class="chip-mfg">Texas Instruments</div>
-            </td>
-            <td>EEG / EMG / BCI</td>
-            <td>8-ch 24-bit SPI ADC, 250–16k SPS</td>
-            <td>Linux kernel IIO</td>
-            <td class="status-review">⟳ Under review — lore.kernel.org</td>
-            <td><a href="https://lore.kernel.org/linux-iio/20260706112614.1262241-1-shofiqtest@gmail.com/" target="_blank" rel="noopener">lore.kernel.org ↗</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p style="margin-top:1rem; font-size:0.82rem; color:var(--dim);">
-      The ADS1299 has no existing upstream Linux kernel driver. The first upstream driver is now under review on linux-iio. It enables IEC 62304-documented EEG acquisition directly in the Linux IIO subsystem — relevant for BCI, surgical robotics, and neuromonitoring devices.
-    </p>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── PATCHES ───────────────────────────────────────────────── -->
-<section id="patches" aria-labelledby="patches-heading">
-  <div class="container">
-    <div class="section-label">Upstream Linux Kernel</div>
-    <h2 class="section-title" id="patches-heading">11 patches in Linus Torvalds' mainline Linux kernel</h2>
-    <p class="section-sub">Every patch reviewed and accepted by subsystem maintainers at Intel, Red Hat, Linaro, and NXP. Searchable at <a href="https://lore.kernel.org/all/?q=Md+Shofiqul+Islam" target="_blank" rel="noopener">lore.kernel.org</a>.</p>
-
-    <ul class="patch-list" aria-label="Upstream Linux kernel patch contributions">
-      <li class="patch-item">
-        <span class="patch-num">IIO</span>
-        <div class="patch-body">
-          <div class="patch-title">iio: health: max86150: ECG + PPG biosensor driver</div>
-          <div class="patch-meta">Linux kernel IIO subsystem · Reviewed by Jonathan Cameron (Intel) ·
-            <a href="https://lore.kernel.org/all/?q=MAX86150+Shofiqul" target="_blank" rel="noopener">lore.kernel.org ↗</a>
-          </div>
-        </div>
-      </li>
-      <li class="patch-item">
-        <span class="patch-num">IIO</span>
-        <div class="patch-body">
-          <div class="patch-title">iio: adc: ti-ads1298: add ADS1299 EEG ADC family support</div>
-          <div class="patch-meta">Linux kernel IIO subsystem · First upstream ADS1299 driver · Under review ·
-            <a href="https://lore.kernel.org/linux-iio/20260706112614.1262241-1-shofiqtest@gmail.com/" target="_blank" rel="noopener">lore.kernel.org ↗</a>
-          </div>
-        </div>
-      </li>
-      <li class="patch-item">
-        <span class="patch-num">USB</span>
-        <div class="patch-body">
-          <div class="patch-title">usb: gadget: fix duplicate endpoint names in composite devices</div>
-          <div class="patch-meta">USB gadget subsystem · Reviewed by Greg Kroah-Hartman (Linux Foundation)</div>
-        </div>
-      </li>
-      <li class="patch-item">
-        <span class="patch-num">MISC</span>
-        <div class="patch-body">
-          <div class="patch-title">misc: eeprom: at24: fix page boundary calculation for 16-bit addressing</div>
-          <div class="patch-meta">I2C/EEPROM subsystem · Reviewed by Bartosz Golaszewski (Linaro)</div>
-        </div>
-      </li>
-      <li class="patch-item">
-        <span class="patch-num">U-BOOT</span>
-        <div class="patch-body">
-          <div class="patch-title">ge: common: vpd_reader: fix errloc array size in verify_bch()</div>
-          <div class="patch-meta">U-Boot mainline · NXP i.MX6Q · Reviewed by Ian Ray (GE HealthCare) ·
-            <a href="https://lore.kernel.org/u-boot/?q=vpd_reader+Shofiqul" target="_blank" rel="noopener">lore.kernel.org/u-boot ↗</a>
-          </div>
-        </div>
-      </li>
-      <li class="patch-item">
-        <span class="patch-num">+6</span>
-        <div class="patch-body">
-          <div class="patch-title">Additional fixes across staging, hwmon, regmap, and clk subsystems</div>
-          <div class="patch-meta">
-            <a href="https://lore.kernel.org/all/?q=Md+Shofiqul+Islam" target="_blank" rel="noopener">Full patch history at lore.kernel.org ↗</a>
-          </div>
-        </div>
-      </li>
-    </ul>
-
-    <div style="margin-top:2rem; padding:1.2rem 1.5rem; background:var(--surface2); border:1px solid var(--border); border-radius:8px; font-size:0.85rem; color:var(--muted);">
-      Also: <strong style="color:var(--text)">MAX30102 SpO₂ driver merged into Zephyr RTOS mainline</strong>
-      (PR #108697) — I²C, interrupt-driven FIFO, Devicetree bindings, reviewed by Arm TSC.
-      Zephyr Individual Contributor.
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── IEC 62304 ──────────────────────────────────────────────── -->
-<section id="iec62304" aria-labelledby="iec-heading">
-  <div class="container">
-    <div class="section-label">Regulatory</div>
-    <h2 class="section-title" id="iec-heading">IEC 62304 medical device software lifecycle</h2>
-    <p class="section-sub">Not documentation as a checkbox — the full software lifecycle process, applied to real kernel drivers and a production ROS 2 package. Public and auditable.</p>
-
-    <div class="doc-grid">
-      <div class="doc-card">
-        <div class="doc-card-abbr">SDP</div>
-        <div class="doc-card-title">Software Development Plan</div>
-        <div class="doc-card-desc">Development process, tools, configuration management, and verification strategy per IEC 62304 §5.1.</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-card-abbr">SCMP</div>
-        <div class="doc-card-title">Software Configuration Management Plan</div>
-        <div class="doc-card-desc">Version control strategy, branch policy, release tagging, and change control per §5.1.9.</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-card-abbr">SPRP</div>
-        <div class="doc-card-title">Software Problem Resolution Plan</div>
-        <div class="doc-card-desc">Defect classification, severity assessment, and corrective action process per §9.</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-card-abbr">FMEA</div>
-        <div class="doc-card-title">Failure Mode &amp; Effects Analysis</div>
-        <div class="doc-card-desc">ISO 14971 software-level risk analysis: failure modes, severity, probability, risk controls per §7.1.2.</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-card-abbr">TM</div>
-        <div class="doc-card-title">Traceability Matrix</div>
-        <div class="doc-card-desc">Bidirectional traceability: SRS ↔ software design ↔ unit tests ↔ integration tests per §5.5.</div>
-      </div>
-      <div class="doc-card">
-        <div class="doc-card-abbr">SOUP</div>
-        <div class="doc-card-title">SOUP Records</div>
-        <div class="doc-card-desc">IEC 62304 §8.1.2 records for each Linux kernel driver: title, author, version, Kconfig dependencies, known anomalies.</div>
-      </div>
-    </div>
-
-    <div class="iec-highlight">
-      <p>
-        <strong>The kernel community has already built the scaffolding for §8.1.2 a) and c).</strong>
-        Every upstream driver declares <code class="mono">MODULE_AUTHOR</code>, <code class="mono">MODULE_DESCRIPTION</code>,
-        <code class="mono">MODULE_LICENSE</code>, and a <code class="mono">Kconfig</code> dependency graph.
-        The git history provides a reproducible version identifier. <code class="mono">get_maintainer.pl</code>
-        gives the CVE contact chain. What's missing is the tooling that bridges kernel developer conventions
-        to regulatory terminology — and closing that gap makes Linux a more defensible choice for
-        <strong>Class B and Class C medical device software</strong>.
-      </p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ── ABOUT ──────────────────────────────────────────────────── -->
-<section id="about" aria-labelledby="about-heading">
-  <div class="container">
-    <div class="section-label">About</div>
-    <h2 class="section-title" id="about-heading">Md Shofiqul Islam</h2>
-
-    <div class="about-grid">
-      <div class="about-text">
-        <p>
-          <strong>Embedded and SoC engineer</strong> with 5+ years building software at the intersection of Linux kernel internals and medical device regulation. Master's in Biomedical Engineering (University of Oulu). Based in Espoo, Finland.
-        </p>
-        <p>
-          I have delivered safety-critical ARM firmware under IEC 62304 for a CE-marked Class IIb medical device — implementing hardware watchdogs, safe-state machines, ISO 14971 FMEA, and full design history file documentation. I have also developed hard real-time C++ software for 5G L1 radio processing on ARM multi-core SoCs, and owned a full Yocto BSP layer through multiple kernel LTS upgrades.
-        </p>
-        <p>
-          My open-source work spans the full embedded Linux medical stack: <strong>upstream kernel IIO drivers reviewed by Intel/Red Hat/Linaro maintainers</strong>, a Zephyr RTOS SpO₂ driver merged after Arm TSC review, U-Boot BSP fixes, and a production ROS 2 package with complete IEC 62304 Class B documentation. The ADS1299 EEG/EMG driver — the first upstream Linux driver for this chip — is currently under review on linux-iio.
-        </p>
-        <p>
-          I am open to embedded software roles in <strong>medical devices, surgical robotics, and medical imaging</strong> across Europe. Permanent EU residence permit. Available immediately.
-        </p>
-      </div>
-
+    <div class="exp-grid">
       <div>
-        <div class="contact-card">
-          <h3>Contact &amp; Links</h3>
-          <div class="contact-row">
-            <a class="contact-link" href="mailto:shofiqtest@gmail.com">
-              <span class="contact-icon">✉</span> shofiqtest@gmail.com
-            </a>
-            <a class="contact-link" href="https://github.com/shofiqtest" target="_blank" rel="noopener">
-              <span class="contact-icon">⌨</span> github.com/shofiqtest
-            </a>
-            <a class="contact-link" href="https://github.com/kernel-medical" target="_blank" rel="noopener">
-              <span class="contact-icon">⌨</span> github.com/kernel-medical
-            </a>
-            <a class="contact-link" href="https://lore.kernel.org/all/?q=Md+Shofiqul+Islam" target="_blank" rel="noopener">
-              <span class="contact-icon">📨</span> Patch history — lore.kernel.org
-            </a>
-            <a class="contact-link" href="https://www.linkedin.com/in/mdshofiqul/" target="_blank" rel="noopener">
-              <span class="contact-icon">🔗</span> linkedin.com/in/mdshofiqul
-            </a>
+        <div class="sig active" data-sig="eeg">ADS1299 EEG (Simulated)</div>
+        <div class="sig" data-sig="ecg">MAX86150 ECG</div>
+        <div class="sig" data-sig="ppg">MAX30102 PPG / SpO₂</div>
+        <div class="sig-note">Simulated signal · kernel DMA ring buffer → epoll → typed ROS 2 topic</div>
+      </div>
+      <div class="scope" id="scope">
+        <div class="ch-row"><div class="lbl">Channel 1</div><div class="ch-win"><div class="ch-scroll"><svg viewBox="0 0 2400 56" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><polyline id="ch0" fill="none" stroke="#f5a05b" stroke-width="1.5"/></svg></div></div></div>
+        <div class="ch-row"><div class="lbl">Channel 2</div><div class="ch-win"><div class="ch-scroll"><svg viewBox="0 0 2400 56" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><polyline id="ch1" fill="none" stroke="#f5c05b" stroke-width="1.5"/></svg></div></div></div>
+        <div class="ch-row"><div class="lbl">Channel 3</div><div class="ch-win"><div class="ch-scroll"><svg viewBox="0 0 2400 56" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><polyline id="ch2" fill="none" stroke="#f58a6b" stroke-width="1.5"/></svg></div></div></div>
+        <div class="axis"><span>0</span><span>5000</span><span>10000</span><span>15000</span></div>
+      </div>
+    </div>
+    <div class="mini-pipe">
+      <div class="mini-node" style="border:1.5px solid #f59e5b;background:#f59e5b14;color:#f5b57b">ADS1299 SPI</div>
+      <div class="mini-link" style="background:linear-gradient(90deg,#f59e5b,#5ba8f5)"></div>
+      <div class="mini-node" style="border:1.5px solid #5ba8f5;background:#5ba8f514;color:#8cc4ff">IIO Buffer</div>
+      <div class="mini-link" style="background:linear-gradient(90deg,#5ba8f5,#4ade80)"></div>
+      <div class="mini-node" style="border:1.5px solid #4ade80;background:#4ade8014;color:#7cebaa">ros2_iio_medical</div>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="wrap">
+    <h2>Metrics</h2>
+    <div class="metrics-grid">
+      <div class="metric"><div class="n">11</div><div class="l">Patches in mainline</div></div>
+      <div class="metric"><div class="n">3</div><div class="l">Drivers</div></div>
+      <div class="metric"><div class="n">5+</div><div class="l">Years embedded</div></div>
+      <div class="metric"><div class="n">CE</div><div class="l">Class IIb delivered</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="case">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>End-to-End Case Study Explorer</h2>
+      <div class="sec-note">FMEA · Traceability · Audit trail</div>
+    </div>
+    <div class="case-grid">
+      <div>
+        <div class="pipe-title">Production Pipeline</div>
+        <div id="pipeline"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span id="panelTitle">STM32MP157 A7 Linux</span><span style="margin-left:auto;color:#5c6d78">×</span></div>
+        <div class="panel-body">
+          <div class="kicker">Architecture</div>
+          <div class="arch">
+            <div class="an"><div style="border-color:#f59e5b">ADS1299 / MAX86150 (sensor)</div><span>↓</span></div>
+            <div class="an"><div style="border-color:#5ba8f5">M4 · Zephyr (SPI DMA)</div><span>↓</span></div>
+            <div class="an"><div style="border-color:#5ba8f5">OpenAMP RPMsg</div><span>↓</span></div>
+            <div class="an"><div style="border-color:#4ade80">A7 Linux · IIO buffer</div><span>↓</span></div>
+            <div class="an"><div style="border-color:#b98cff">ROS 2 node → Medical app</div></div>
           </div>
-          <div class="avail-tag">Available for opportunities</div>
+          <div class="snip-head">
+            <div class="kicker" style="margin:0">Patch snippet</div>
+            <button class="copy-btn" id="copyBtn">Copy</button>
+          </div>
+          <pre id="snippet"><span class="hl">iio: health: max86150:</span> add ECG+PPG driver
+<span class="add">+ static int max86150_probe(struct i2c_client *client)
++ {
++     struct iio_dev *indio_dev;
++     indio_dev = devm_iio_device_alloc(dev, sizeof(*data));</span></pre>
+          <div class="kicker" style="margin:22px 0 10px">Generated documents</div>
+          <div class="docs">
+            <a href="https://github.com/kernel-medical/ros2_iio_medical" target="_blank" rel="noopener">SDP — Software Development Plan ↗</a>
+            <a href="https://github.com/kernel-medical/iec62304-embedded-drivers" target="_blank" rel="noopener">SCMP — Software Configuration Management Plan ↗</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ─────────────────────────────────────────────────── -->
-<footer>
-  <p>
-    <a href="https://github.com/kernel-medical" target="_blank" rel="noopener">kernel-medical</a>
-    &nbsp;·&nbsp;
-    <a href="https://lore.kernel.org/all/?q=Md+Shofiqul+Islam" target="_blank" rel="noopener">lore.kernel.org</a>
-    &nbsp;·&nbsp;
-    <a href="https://github.com/kernel-medical/ros2_iio_medical" target="_blank" rel="noopener">ros2_iio_medical</a>
-    &nbsp;·&nbsp;
-    <a href="https://github.com/kernel-medical/iec62304-embedded-drivers" target="_blank" rel="noopener">iec62304-embedded-drivers</a>
-  </p>
-  <p style="margin-top:0.5rem;">Embedded Linux · Zephyr RTOS · IEC 62304 · ROS 2 · Medical Device Software</p>
-</footer>
+<section class="doctor" id="contact">
+  <div class="ph">
+    <img src="images/robot.jpg" alt="Surgical robot" onerror="this.remove()">
+    <span>images/robot.jpg — add a surgical-robot photo (licensed/stock)</span>
+  </div>
+  <div class="scrim"></div>
+  <h2>From Driver to Doctor</h2>
+  <div class="chip">Low-latency ADS1299 EEG data — mainline driver → ROS 2 topic</div>
+  <div class="contact">
+    <a href="mailto:shofiqtest@gmail.com">✉ shofiqtest@gmail.com</a>
+    <a href="https://github.com/kernel-medical" target="_blank" rel="noopener">⌨ github.com/kernel-medical</a>
+    <a href="https://lore.kernel.org/all/?q=Md+Shofiqul+Islam" target="_blank" rel="noopener">📨 lore.kernel.org</a>
+  </div>
+</section>
 
+<script>
+(function(){
+  var W=1200,H=56,N=400;
+  function wave(type,ch){
+    var half=[],base=H*0.55,i,t,y,p;
+    if(type==='ecg'){
+      var cycles=7,per=N/cycles;
+      for(i=0;i<N;i++){
+        p=(i+ch*13)%per; y=base;
+        if(Math.abs(p-per*0.35)<1)y=base-H*0.09;
+        else if(Math.abs(p-per*0.45)<1)y=base+H*0.12;
+        else if(Math.abs(p-per*0.475)<1)y=base-H*0.68;
+        else if(Math.abs(p-per*0.5)<1)y=base+H*0.2;
+        else if(Math.abs(p-per*0.68)<2)y=base-H*0.12;
+        half.push([i/N*W,y]);
+      }
+    }else if(type==='ppg'){
+      for(i=0;i<N;i++){
+        t=i/N*Math.PI*2*6+ch;
+        var pulse=Math.pow(Math.max(0,Math.sin(t)),3)+0.25*Math.pow(Math.max(0,Math.sin(t-0.9)),5);
+        half.push([i/N*W,base-pulse*H*0.55+H*0.1]);
+      }
+    }else{
+      for(i=0;i<N;i++){
+        t=i/N*Math.PI*2;
+        y=base+Math.sin(t*11+ch*2)*H*0.16+Math.sin(t*29+ch*5+1)*H*0.10+Math.sin(t*53+ch*7+2)*H*0.06;
+        half.push([i/N*W,y]);
+      }
+    }
+    var pts=half.concat(half.map(function(pt){return [pt[0]+W,pt[1]]}));
+    return pts.map(function(pt){return pt[0].toFixed(1)+','+pt[1].toFixed(1)}).join(' ');
+  }
+  function setSignal(sig){
+    for(var c=0;c<3;c++) document.getElementById('ch'+c).setAttribute('points',wave(sig,c));
+  }
+  setSignal('eeg');
+  document.querySelectorAll('.sig').forEach(function(el){
+    el.addEventListener('click',function(){
+      document.querySelectorAll('.sig').forEach(function(s){s.classList.remove('active')});
+      el.classList.add('active');
+      setSignal(el.getAttribute('data-sig'));
+    });
+  });
+  document.getElementById('animSel').addEventListener('change',function(e){
+    document.getElementById('scope').classList.toggle('paused',e.target.value==='static');
+  });
+
+  var nodes=[
+    {t:'Hardware',s:'ADS1299 / MAX86150',c:'#f59e5b',tag:'SPI/I²C'},
+    {t:'M4 Cortex (Zephyr RTOS)',s:'SPI DMA · OpenAMP',c:'#5ba8f5',tag:'RTOS'},
+    {t:'STM32MP157 A7 Linux',s:'OpenAMP RPMsg',c:'#5ba8f5',tag:'SoC'},
+    {t:'A7 Linux (Kernel IIO)',s:'DMA ring buffer · epoll',c:'#4ade80',tag:'kernel'},
+    {t:'User Space (ROS 2 Humble)',s:'typed biosignal topics',c:'#b98cff',tag:'ROS 2'},
+    {t:'Medical Device Application',s:'surgical robot · monitor',c:'#f0647a',tag:'Class B'}
+  ];
+  var sel=2,pipeEl=document.getElementById('pipeline');
+  function renderPipe(){
+    pipeEl.innerHTML='';
+    nodes.forEach(function(n,i){
+      var d=document.createElement('div');
+      d.className='pnode';
+      d.style.borderColor=n.c;
+      d.style.background=i===sel?n.c+'1f':'#10181f';
+      d.style.boxShadow=i===sel?'0 0 18px '+n.c+'44':'none';
+      d.innerHTML='<div><div class="t"></div><div class="s"></div></div><div class="tag" style="color:'+n.c+'"></div>';
+      d.querySelector('.t').textContent=n.t;
+      d.querySelector('.s').textContent=n.s;
+      d.querySelector('.tag').textContent=n.tag;
+      d.addEventListener('click',function(){sel=i;renderPipe();document.getElementById('panelTitle').textContent=n.t;});
+      pipeEl.appendChild(d);
+      if(i<nodes.length-1){var a=document.createElement('div');a.className='parrow';a.textContent='↓';pipeEl.appendChild(a);}
+    });
+  }
+  renderPipe();
+
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    navigator.clipboard.writeText(document.getElementById('snippet').textContent);
+    var b=this;b.textContent='Copied ✓';setTimeout(function(){b.textContent='Copy'},1500);
+  });
+})();
+</script>
 </body>
 </html>
