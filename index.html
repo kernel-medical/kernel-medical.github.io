@@ -829,15 +829,15 @@
             <td>EEG / EMG / BCI</td>
             <td>8-ch 24-bit SPI ADC, 250–16k SPS</td>
             <td>Linux kernel IIO</td>
-            <td class="status-dev">◌ In development — first upstream driver</td>
-            <td><a href="https://github.com/kernel-medical" target="_blank" rel="noopener">kernel-medical ↗</a></td>
+            <td class="status-review">⟳ Under review — lore.kernel.org</td>
+            <td><a href="https://lore.kernel.org/linux-iio/20260706112614.1262241-1-shofiqtest@gmail.com/" target="_blank" rel="noopener">lore.kernel.org ↗</a></td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <p style="margin-top:1rem; font-size:0.82rem; color:var(--dim);">
-      The ADS1299 has no existing upstream Linux kernel driver. This will be the first. It enables IEC 62304-documented EEG acquisition directly in the Linux IIO subsystem — relevant for BCI, surgical robotics, and neuromonitoring devices.
+      The ADS1299 has no existing upstream Linux kernel driver. The first upstream driver is now under review on linux-iio. It enables IEC 62304-documented EEG acquisition directly in the Linux IIO subsystem — relevant for BCI, surgical robotics, and neuromonitoring devices.
     </p>
   </div>
 </section>
@@ -864,8 +864,10 @@
       <li class="patch-item">
         <span class="patch-num">IIO</span>
         <div class="patch-body">
-          <div class="patch-title">iio: adc: ads1299: 8-channel 24-bit EEG/EMG SPI ADC driver</div>
-          <div class="patch-meta">Linux kernel IIO subsystem · First upstream ADS1299 driver</div>
+          <div class="patch-title">iio: adc: ti-ads1298: add ADS1299 EEG ADC family support</div>
+          <div class="patch-meta">Linux kernel IIO subsystem · First upstream ADS1299 driver · Under review ·
+            <a href="https://lore.kernel.org/linux-iio/20260706112614.1262241-1-shofiqtest@gmail.com/" target="_blank" rel="noopener">lore.kernel.org ↗</a>
+          </div>
         </div>
       </li>
       <li class="patch-item">
@@ -983,7 +985,7 @@
           I have delivered safety-critical ARM firmware under IEC 62304 for a CE-marked Class IIb medical device — implementing hardware watchdogs, safe-state machines, ISO 14971 FMEA, and full design history file documentation. I have also developed hard real-time C++ software for 5G L1 radio processing on ARM multi-core SoCs, and owned a full Yocto BSP layer through multiple kernel LTS upgrades.
         </p>
         <p>
-          My open-source work spans the full embedded Linux medical stack: <strong>upstream kernel IIO drivers reviewed by Intel/Red Hat/Linaro maintainers</strong>, a Zephyr RTOS SpO₂ driver merged after Arm TSC review, U-Boot BSP fixes, and a production ROS 2 package with complete IEC 62304 Class B documentation. The ADS1299 EEG/EMG driver — the first upstream Linux driver for this chip — is the next contribution in progress.
+          My open-source work spans the full embedded Linux medical stack: <strong>upstream kernel IIO drivers reviewed by Intel/Red Hat/Linaro maintainers</strong>, a Zephyr RTOS SpO₂ driver merged after Arm TSC review, U-Boot BSP fixes, and a production ROS 2 package with complete IEC 62304 Class B documentation. The ADS1299 EEG/EMG driver — the first upstream Linux driver for this chip — is currently under review on linux-iio.
         </p>
         <p>
           I am open to embedded software roles in <strong>medical devices, surgical robotics, and medical imaging</strong> across Europe. Permanent EU residence permit. Available immediately.
