@@ -53,7 +53,7 @@
   .first-badge{display:inline-flex;align-items:center;gap:10px;margin-top:30px;font-family:var(--mono);font-size:13px;color:var(--amber);border-left:2px solid var(--amber);padding:4px 0 4px 14px}
   .hero-img{position:relative;height:340px}
   .hero-img .ph{position:absolute;inset:0;transform:rotate(2deg);border-radius:16px;overflow:hidden;border:1px solid #2a3844;background:repeating-linear-gradient(45deg,#101820,#101820 14px,#0d141b 14px,#0d141b 28px);display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mono);font-size:12.5px;text-align:center;padding:20px}
-  .hero-img .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-img .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .hero-img .tag{position:absolute;right:14px;bottom:-12px;background:var(--panel);border:1px solid #2a3844;color:var(--muted);font-family:var(--mono);font-size:11.5px;padding:6px 12px;border-radius:6px}
 
   section{border-bottom:1px solid var(--border)}
@@ -112,7 +112,7 @@
   /* driver to doctor */
   .doctor{position:relative;height:440px;border-bottom:none}
   .doctor .ph{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#101820,#101820 18px,#0d141b 18px,#0d141b 36px);display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mono);font-size:13px}
-  .doctor .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .doctor .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .doctor .scrim{position:absolute;inset:0;background:linear-gradient(180deg,#0a0f14cc 0%,transparent 40%,#0a0f14dd 100%);pointer-events:none}
   .doctor h2{position:absolute;top:44px;left:48px;font-size:36px;text-shadow:0 2px 16px rgba(0,0,0,.6)}
   .doctor .chip{position:absolute;right:48px;bottom:40px;background:#0d1319ee;border:1px solid #2a3844;color:#c7d4d1;font-family:var(--mono);font-size:12.5px;padding:10px 16px;border-radius:8px}
@@ -142,7 +142,7 @@
 <nav>
   <div class="brand"><b>kernel-medical</b><span>.github.io</span></div>
   <div class="links">
-    <a href="#explorer">Stack</a><a href="#case">Projects</a><a href="#explorer">Sensors</a><a href="#metrics">Patches</a><a href="#case">IEC 62304</a><a href="#contact">About</a>
+    <a href="#stack">Stack</a><a href="#case">Projects</a><a href="#stack">Sensors</a><a href="#metrics">Patches</a><a href="#case">IEC 62304</a><a href="#contact">About</a>
   </div>
   <div class="avail"><i></i>OPEN TO OPPORTUNITIES</div>
 </nav>
@@ -160,15 +160,14 @@
     </div>
     <div class="hero-img">
       <div class="ph">
-        <img src="images/hero-pcb.jpg" alt="STM32MP157 development board with biosensor breakout" onerror="this.remove()">
-        <span>images/hero-pcb.jpg<br>— add a photo of your dev board / workbench —</span>
+        <img src="images/hero-pcb.jpg" alt="STM32 development board with biosensor breakout" decoding="async">
       </div>
       <div class="tag">STM32MP157 · ADS1299 · MAX86150</div>
     </div>
   </div>
 </div>
 
-<section class="explorer" id="explorer">
+<section class="explorer" id="stack">
   <div class="wrap">
     <div class="sec-head">
       <h2>Interactive Biosignal Explorer</h2>
@@ -257,8 +256,7 @@
 
 <section class="doctor" id="contact">
   <div class="ph">
-    <img src="images/robot.jpg" alt="Surgical robot" onerror="this.remove()">
-    <span>images/robot.jpg — add a surgical-robot photo (licensed/stock)</span>
+    <img src="images/robot.jpg" alt="Surgeon operating a robotic surgical system" loading="lazy" decoding="async">
   </div>
   <div class="scrim"></div>
   <h2>From Driver to Doctor</h2>
