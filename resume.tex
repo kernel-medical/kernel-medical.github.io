@@ -1,0 +1,150 @@
+%% Md Shofiqul Islam – Universal CV (kernel-medical.github.io/resume.pdf)
+%% Public version – employer names anonymised for NDA compliance
+\documentclass[10.5pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1.6cm, bottom=1.6cm, left=2cm, right=2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\definecolor{accent}{RGB}{34,197,94}   % --green from the site palette
+\definecolor{accentdark}{RGB}{15,80,40}
+
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0em}{}[\color{accent}\vspace{1pt}\hrule\vspace{4pt}]
+\titlespacing{\section}{0pt}{9pt}{4pt}
+
+\setlist[itemize]{noitemsep, topsep=2pt, leftmargin=1.5em}
+\pagestyle{empty}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+
+\newcommand{\job}[3]{%
+  \noindent\textbf{#1} \hfill \textit{#2}\\
+  \textit{\color{accent}#3}%
+}
+
+\begin{document}
+
+% ── HEADER ────────────────────────────────────────────────────────────────────
+\noindent{\color{accent}\rule{\linewidth}{2.5pt}}
+\begin{center}
+  \vspace{6pt}
+  {\Huge\bfseries Md Shofiqul Islam}\\[7pt]
+  {\normalsize\bfseries Embedded Linux \enspace|\enspace IIO Kernel Driver Author \enspace|\enspace ARM SoC \enspace|\enspace Zephyr RTOS \enspace|\enspace Medical Device Software}\\[6pt]
+  {\small Espoo, Finland \enspace|\enspace Finnish Permanent Residence Permit \enspace|\enspace Open to Europe and Ireland}\\[4pt]
+  {\small
+    \href{mailto:shofiqtest@gmail.com}{shofiqtest@gmail.com} \enspace|\enspace
+    \href{https://www.linkedin.com/in/mdshofiqul/}{linkedin.com/in/mdshofiqul} \enspace|\enspace
+    \href{https://github.com/kernel-medical}{github.com/kernel-medical} \enspace|\enspace
+    \href{https://lore.kernel.org/all/?q=Md+Shofiqul+Islam}{lore.kernel.org}}
+  \vspace{6pt}
+\end{center}
+\noindent{\color{accent}\rule{\linewidth}{1pt}}
+\vspace{4pt}
+
+% ── PROFESSIONAL SUMMARY ──────────────────────────────────────────────────────
+\section{Professional Summary}
+
+Embedded Linux engineer with \textbf{5+ years of professional experience} building production-quality ARM firmware, HAL-level device drivers, and real-time software for mission-critical SoC platforms, combined with active upstream Linux kernel contributions across 8 subsystems. Author of the upstream Linux kernel IIO driver for the Maxim/ADI MAX86150 ECG and PPG biosensor (under active review by Jonathan Cameron, IIO maintainer) and the first upstream driver for the TI ADS1299 8-channel 24-bit EEG/EMG ADC. Zephyr RTOS driver merged into mainline. Python test automation and CI/CD background from regulated embedded projects. Biomedical Engineering background providing direct understanding of medical device signal chains and safety-critical software quality requirements. Eligible to work across the EU without visa sponsorship.
+
+% ── TECHNICAL SKILLS ──────────────────────────────────────────────────────────
+\section{Technical Skills}
+
+\begin{itemize}
+  \item \textbf{Embedded C/C++:} HAL and register-level device driver development for ARM Cortex-M/A; bare-metal and RTOS firmware; memory-mapped I/O, ISRs, DMA control; Linux kernel coding standards
+  \item \textbf{Linux Kernel:} IIO, net-next, ASoC, XFS, SCSI, DRM/Accel, power supply, SoC subsystems; regmap, kfifo, DMA-safe buffer design; interrupt-driven triggered buffers; Device Tree bindings; 15 accepted upstream patches
+  \item \textbf{RTOS \& Real-Time:} Zephyr RTOS; interrupt-driven data pipelines; race condition analysis; spinlocks, mutexes, semaphores; deterministic execution under hard real-time SLAs
+  \item \textbf{Sensor \& Converter Interfaces:} I2C, SPI, UART at register level; 24-bit precision ADC interface (MAX86150 ECG/PPG, ADS1299 EEG/EMG, MAX30101/MAX30102 pulse oximetry); FIFO management; DMA-safe burst reads
+  \item \textbf{Platform \& Build:} Yocto/Bitbake cross-compilation for ARM; Linux kernel build and configuration; Docker; cross-toolchain management
+  \item \textbf{Debug:} GDB/KGDB, JTAG/SWD, ftrace, perf, tracepoints; static analysis (sparse, smatch, checkpatch); root-cause analysis of kernel panics, NULL dereferences, and interrupt races
+  \item \textbf{Test \& CI/CD:} Python and Robot Framework test automation; GitHub Actions; unit and integration test plan design; automated regression detection
+  \item \textbf{Languages:} C (expert); C++17/20; Python (senior, automation); Bash
+  \item \textbf{Medical Device:} IEC 62304 Class B software lifecycle; biosignal acquisition pipelines; ROS 2 integration for medical robotics; DSP for biomedical signals
+  \item \textbf{Tools:} Git, GDB, JTAG, Docker, GitHub Actions, Gerrit, Jira, Agile/Scrum
+\end{itemize}
+
+% ── WORK EXPERIENCE ───────────────────────────────────────────────────────────
+\section{Work Experience}
+
+\job{SoC Software Engineer}{Mar 2023 -- Present}{Nokia, Espoo, Finland}
+\begin{itemize}
+  \item Embedded C HAL and register-level device drivers for ARM multi-core SoC platforms in 5G beamforming systems under hard real-time SLAs; root-cause analysis of interrupt races, NULL dereferences, and DMA errors.
+  \item Static analysis (sparse, smatch, checkpatch) integrated as CI quality gates; software interface specifications for downstream Agile teams; mentored junior engineers.
+\end{itemize}
+
+\vspace{4pt}
+
+\job{Software Development Engineer (RF/L1)}{Mar 2022 -- Mar 2023}{Nokia, Oulu, Finland}
+\begin{itemize}
+  \item Real-time C++ firmware for 5G L1 signal processing on ARM; Yocto/Bitbake cross-compilation pipelines; performance regression analysis with perf and ftrace.
+\end{itemize}
+
+\vspace{4pt}
+
+\job{Software Test and Automation Engineer}{Sep 2021 -- Feb 2022}{Etteplan, Tampere, Finland}
+\begin{itemize}
+  \item Python and Robot Framework automated test suites for regulated embedded customer projects; requirements traceability; CI pipeline integration.
+\end{itemize}
+
+\vspace{4pt}
+
+\job{Master's Thesis Worker}{Jul 2018 -- Dec 2018}{Sooma Medical, Helsinki, Finland}
+\begin{itemize}
+  \item DSP-based electrical field modelling pipeline for clinical brain stimulation planning in a regulated medical device environment.
+\end{itemize}
+
+% ── OPEN SOURCE CONTRIBUTIONS ─────────────────────────────────────────────────
+\section{Open Source Contributions}
+
+\noindent\textbf{Linux Kernel IIO} --- MAX86150 ECG and PPG Biosensor Driver \hfill
+  {\small\href{https://lore.kernel.org/linux-iio/20260707112714.2261727-1-shofiqtest@gmail.com/}{lore.kernel.org/linux-iio}}
+\begin{itemize}
+  \item Production-quality IIO driver for the Maxim/ADI MAX86150 integrated ECG and PPG biosensor: I2C/regmap, 32-entry FIFO, DMA-safe 24-bit burst reads, interrupt-driven triggered buffer, power management, Device Tree bindings. Diagnosed and fixed two kernel panic scenarios: NULL dereference race on \texttt{active\_scan\_mask} and stale interrupt status race causing spurious FIFO reads. Submitted v10; under active review by IIO maintainer Jonathan Cameron.
+\end{itemize}
+
+\vspace{3pt}
+\noindent\textbf{Linux Kernel IIO} --- ADS1299 8-Channel 24-bit EEG/EMG ADC Driver \hfill
+  {\small\href{https://lore.kernel.org/linux-iio/}{lore.kernel.org/linux-iio}}
+\begin{itemize}
+  \item First upstream Linux kernel driver for the TI ADS1299 precision 8-channel 24-bit biopotential ADC: SPI/regmap, continuous data conversion, DMA-safe burst reads, interrupt-driven sampling, Device Tree bindings. Submitted v2 July 2026.
+\end{itemize}
+
+\vspace{3pt}
+\noindent\textbf{Zephyr RTOS} --- MAX30101/MAX30102 Pulse Oximeter Driver \hfill
+  {\small\href{https://github.com/zephyrproject-rtos/zephyr/pull/108697}{PR \#108697 -- merged}}
+\begin{itemize}
+  \item Complete sensor driver merged into Zephyr RTOS mainline: I2C, interrupt-driven triggered sampling, Devicetree bindings, Kconfig, CI. Reviewed by Intel and Nordic Semiconductor maintainers.
+\end{itemize}
+
+\vspace{3pt}
+\noindent\textbf{Linux Kernel} --- Multi-subsystem Patches \hfill
+  {\small\href{https://lore.kernel.org/all/?q=Md+Shofiqul+Islam}{lore.kernel.org}}
+\begin{itemize}
+  \item 15 patches across IIO, net-next, ASoC, XFS, SCSI, DRM/Accel, power supply, and SoC subsystems; reviewed and accepted by maintainers at Intel, Microsoft, Red Hat, and Linaro.
+\end{itemize}
+
+% ── EDUCATION ─────────────────────────────────────────────────────────────────
+\section{Education}
+
+\job{Master of Health Sciences (M.H.Sc.) in Biomedical Engineering}{2016 -- 2021}{University of Oulu, Finland}\\
+Specialisation: Biomechanics and Imaging. DSP, medical device hardware-software interfacing, safety-critical system design. Thesis: DSP electrical field modelling pipeline for clinical brain stimulation at a Finnish medical device company.
+
+\vspace{4pt}
+\job{Master of Science (M.Sc.) in Computer Science and Engineering}{Jan 2014 -- Dec 2015}{Islamic University, Bangladesh}
+
+\vspace{4pt}
+\job{Bachelor of Science (B.Sc.) in Electrical and Electronics Engineering}{Oct 2008 -- Feb 2013}{International Islamic University Chittagong (IIUC), Bangladesh}
+
+% ── CERTIFICATIONS ────────────────────────────────────────────────────────────
+\section{Certifications}
+
+Linux for Engineers -- The Linux Foundation \quad|\quad
+Introduction to RISC-V (LFD110) -- The Linux Foundation \quad|\quad
+Generative AI and Large Language Models -- Coursera
+
+\end{document}
