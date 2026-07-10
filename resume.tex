@@ -73,15 +73,32 @@ Embedded Linux engineer with \textbf{5+ years of professional experience} buildi
 
 \job{SoC Software Engineer}{Mar 2023 -- Present}{Nokia, Espoo, Finland}
 \begin{itemize}
-  \item Embedded C HAL and register-level device drivers for ARM multi-core SoC platforms in 5G beamforming systems under hard real-time SLAs; root-cause analysis of interrupt races, NULL dereferences, and DMA errors.
-  \item Static analysis (sparse, smatch, checkpatch) integrated as CI quality gates; software interface specifications for downstream Agile teams; mentored junior engineers.
+  \item Linux kernel LTS upgrades and BSP maintenance for Nokia legacy 5G SoC platforms;
+    Yocto/OpenEmbedded layer management and CI/CD regression pipeline ownership.
+  \item Embedded C and C++ development for Nokia 5G L1 radio platform: real-time signal
+    processing, hardware integration, and driver-level implementation.
+  \item Embedded C development for Nokia \textbf{5G and 6G ASIP platforms} using
+    \textbf{Synopsys development tools}: driver implementation and hardware integration
+    for application-specific instruction-set processors.
+  \item Designed and implemented a \textbf{C library for 5G and 6G channel estimation
+    algorithms} used in interference cancellation development --- full ownership from
+    requirements through integration.
+  \item \textbf{Technical authority} for interface specifications between SoC hardware,
+    firmware, and software subsystems; led formal design reviews and change control
+    across global engineering teams.
 \end{itemize}
 
 \vspace{4pt}
 
 \job{Software Development Engineer (RF/L1)}{Mar 2022 -- Mar 2023}{Nokia, Oulu, Finland}
 \begin{itemize}
-  \item Real-time C++ firmware for 5G L1 signal processing on ARM; Yocto/Bitbake cross-compilation pipelines; performance regression analysis with perf and ftrace.
+  \item Embedded C++ development for Nokia 5G L1 radio signal processing platform.
+  \item \textbf{Wind River Linux and VxWorks} middleware adaptation and integration
+    for hard real-time 5G L1 processing on ARM SoC platforms.
+  \item Yocto/OpenEmbedded meta layer development and maintenance for L1 radio
+    platform targets; hardware-software integration and verification.
+  \item Real-time embedded software development under hard real-time scheduling
+    requirements; performance regression analysis with perf and ftrace.
 \end{itemize}
 
 \vspace{4pt}
@@ -104,7 +121,7 @@ Embedded Linux engineer with \textbf{5+ years of professional experience} buildi
 \noindent\textbf{Linux Kernel IIO} --- MAX86150 ECG and PPG Biosensor Driver \hfill
   {\small\href{https://lore.kernel.org/linux-iio/20260707112714.2261727-1-shofiqtest@gmail.com/}{lore.kernel.org/linux-iio}}
 \begin{itemize}
-  \item Production-quality IIO driver for the Maxim/ADI MAX86150 integrated ECG and PPG biosensor: I2C/regmap, 32-entry FIFO, DMA-safe 24-bit burst reads, interrupt-driven triggered buffer, power management, Device Tree bindings. Diagnosed and fixed two kernel panic scenarios: NULL dereference race on \texttt{active\_scan\_mask} and stale interrupt status race causing spurious FIFO reads. Submitted v10; under active review by IIO maintainer Jonathan Cameron.
+  \item Production-quality IIO driver for the Maxim/ADI MAX86150 integrated ECG and PPG biosensor: I2C/regmap, 32-entry FIFO, DMA-safe 24-bit burst reads, interrupt-driven triggered buffer, power management, Device Tree bindings. Diagnosed and fixed two kernel panic scenarios: NULL dereference race on \texttt{active\_scan\_mask} and stale interrupt status race causing spurious FIFO reads. Submitted v7; under active review by IIO maintainer Jonathan Cameron.
 \end{itemize}
 
 \vspace{3pt}
